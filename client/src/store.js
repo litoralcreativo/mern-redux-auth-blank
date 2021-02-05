@@ -15,7 +15,7 @@ const store = process.env.NODE_ENV === 'production'?createStore(rootReducer, ini
     applyMiddleware(...middelWare),
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 )):createStore(rootReducer, initialState, compose(
-    applyMiddleware(...middleware),
+    applyMiddleware(...middelWare),
 ));
 
 export default store;
