@@ -1,37 +1,65 @@
-import React, { useState } from 'react'
+import React, { Fragment, useState } from "react";
 import {
-    Collapse,
-    Navbar,
-    NavbarToggler,
-    NavbarBrand,
-    Nav,
-    NavItem,
-    NavLink,
-    Container
-  } from 'reactstrap';
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  Container,
+} from "reactstrap";
+import RegisterModal from "./auth/RegisterModal";
+import LoginModal from "./auth/LoginModal";
+import Logout from "./auth/Logout";
+import { connect } from "react-redux";
 
+function AppNavbar(props) {
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen(!isOpen);
 
-function AppNavbar (props) {
-    const [isOpen, setIsOpen] = useState(false);
-    const toggle = () => setIsOpen(!isOpen);
-    
-    return (
-        <div>
-            <Navbar color="dark" dark expand="sm" className="mb-5">
-                <Container>
-                    <NavbarBrand href="/">ShoppingList</NavbarBrand>
-                    <NavbarToggler onClick={toggle} />
-                    <Collapse isOpen={isOpen} navbar>
-                        <Nav className="ml-auto" navbar>
-                            <NavItem>
-                                <NavLink href="https://github.com/litoralcreativo">GitHub</NavLink>
-                            </NavItem>
-                        </Nav>
-                    </Collapse>
-                </Container>
-            </Navbar>
-        </div>
-    )
+  const { isAuthenticated, user } = props.auth;
+
+  const authLinks = (
+    <Fragment>
+      <NavItem>
+        <span className="navbar-text mr-3">
+          <strong>{user ? `Welcome ${user.name}` : ""}</strong>
+        </span>
+      </NavItem>
+      <NavItem>
+        <Logout />
+      </NavItem>
+    </Fragment>
+  );
+
+  const guestLinks = (
+    <Fragment>
+      <NavItem>
+        <RegisterModal />
+      </NavItem>
+      <NavItem>
+        <LoginModal />
+      </NavItem>
+    </Fragment>
+  );
+
+  return (
+    <div>
+      <Navbar color="dark" dark expand="sm" className="mb-5">
+        <Container>
+          <NavbarBrand href="/">ShoppingList</NavbarBrand>
+          <NavbarToggler onClick={toggle} />
+          <Collapse isOpen={isOpen} navbar>
+            <Nav className="ml-auto" navbar>
+              {isAuthenticated ? authLinks : guestLinks}
+            </Nav>
+          </Collapse>
+        </Container>
+      </Navbar>
+    </div>
+  );
 }
-
-export default AppNavbar
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+export default connect(mapStateToProps, null)(AppNavbar);
