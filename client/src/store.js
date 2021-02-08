@@ -9,10 +9,13 @@ const middelWare = [thunk];
 const store = createStore(
   rootReducer,
   initialState,
-  compose(
-    applyMiddleware(...middelWare)
-    // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
+  process.env.NODE_ENV !== "production"
+    ? compose(
+        applyMiddleware(...middelWare),
+        window.__REDUX_DEVTOOLS_EXTENSION__ &&
+          window.__REDUX_DEVTOOLS_EXTENSION__()
+      )
+    : compose(applyMiddleware(...middelWare))
 );
 
 export default store;
