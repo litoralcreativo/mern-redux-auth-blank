@@ -1,4 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://gaston:GmbyRwaWBMoMEAqY@firstcluster.h99lu.mongodb.net/mern-shopping-list?retryWrites=true&w=majority",
-    "jwtSecret": "mern_shopping_list_gastonJwtSecret"
+    "mongoURI": "mongodb+srv://<USER>:<PASSWORD>@<CLUSTER>/<DATABASE>?retryWrites=true&w=majority",
+    "jwtSecret": "<SECRET>"
 }
